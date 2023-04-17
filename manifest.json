@@ -1,6 +1,6 @@
 {
     "name": "PWA Cookbook",
-    "short_name": "PWACookBook",
+    "short_name": "Cookbook",
     "lang":"en",
     "start_url": "./index.html",
 	"id": "./index.html",
