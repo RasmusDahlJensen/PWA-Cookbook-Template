@@ -23,5 +23,22 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+const q = query(collection(db, "recipes"));
+
+export const getData = async (collectionName) => {
+	const q = query(collection(db, collectionName));
+};
+
+const snapshot = onSnapshot(q, (querySnapshot) => {
+	querySnapshot.docChanges().forEach((change) => {
+		// console.log(change.doc.data());
+		if (change.type === "added") {
+			//tilføj data til app
+		}
+		if (change.type === "removed") {
+			//Fjern data fra app
+		}
+	});
+});
 
 export { db };
