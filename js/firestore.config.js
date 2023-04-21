@@ -1,5 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.20.0/firebase-app.js";
+import { renderRecipe } from "./ui.js";
 import {
 	getFirestore,
 	getDocs,
@@ -23,22 +24,22 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-const q = query(collection(db, "recipes"));
 
-export const getData = async (collectionName) => {
+const getData = async (collectionName) => {
 	const q = query(collection(db, collectionName));
+
+	const snapshot = onSnapshot(q, (querySnapshot) => {
+		querySnapshot.docChanges().forEach((change) => {
+			// console.log(change.doc.data());
+			if (change.type === "added") {
+				//tilføj data til app
+				renderRecipe(change.doc.data(), change.doc.id);
+			}
+			if (change.type === "removed") {
+				//Fjern data fra app
+			}
+		});
+	});
 };
 
-const snapshot = onSnapshot(q, (querySnapshot) => {
-	querySnapshot.docChanges().forEach((change) => {
-		// console.log(change.doc.data());
-		if (change.type === "added") {
-			//tilføj data til app
-		}
-		if (change.type === "removed") {
-			//Fjern data fra app
-		}
-	});
-});
-
-export { db };
+export { db, getData };
